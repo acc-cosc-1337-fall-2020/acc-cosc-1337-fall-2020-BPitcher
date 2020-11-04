@@ -1,7 +1,12 @@
 //write include statements
-
+#include "dna.h"
+#include<iostream>
+#include<string>
+#include <iomanip>
 //write using statements
-
+using std::cin;
+using std::cout;
+using std::string;
 
 /*
 Write code that prompts user to enter 1 for Get GC Content, 
