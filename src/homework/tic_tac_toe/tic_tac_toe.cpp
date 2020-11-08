@@ -122,3 +122,23 @@ void TicTacToe::set_winner()
   }
   winner = "X";
 } 
+
+std::istream& operator>>(std::istream& in, TicTacToe& game)
+{
+    int mark;
+
+    do
+    {
+        cout<<"Enter the space to mark: ";
+        in>>mark;
+    } while (mark < 1 || mark > 9);
+    
+    game.mark_board(mark);
+}
+
+void operator <<(std::ostream &output, TicTacToe &game)
+{
+    output << game.pegs[0] << "|" << game.pegs[1] << "|" << game.pegs[2] << std::endl;
+    output << game.pegs[3] << "|" << game.pegs[4] << "|" << game.pegs[5] << std::endl;
+    output << game.pegs[6] << "|" << game.pegs[7] << "|" << game.pegs[8] << std::endl;
+}
