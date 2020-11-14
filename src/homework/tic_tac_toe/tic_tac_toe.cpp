@@ -32,8 +32,23 @@ bool TicTacToe::game_over()
 
 void TicTacToe::mark_board(int position)
 {
-    pegs[position - 1] = player;
-    set_next_player();
+    do
+    {
+        if(pegs[position - 1] == " ")
+        {
+            pegs[position - 1] = player;
+            if (game_over() ==  false)
+            {
+                set_next_player();
+            }
+            
+        }
+        else
+        {
+            cout<<"That play has already been made\n";
+        }
+    } while (pegs[position - 1] == " ");
+        
 }
 
 void TicTacToe::display_board()const
@@ -56,11 +71,6 @@ void TicTacToe::set_next_player()
         player = "X";
     }
 
-}
-
-string TicTacToe::get_winner()
-{
-    return winner;
 }
 
 bool TicTacToe::check_board_full()
@@ -126,19 +136,37 @@ void TicTacToe::set_winner()
 std::istream& operator>>(std::istream& in, TicTacToe& game)
 {
     int mark;
-
-    do
+    while(!(in>>mark))
     {
-        cout<<"Enter the space to mark: ";
+        cout<<"Invalid input. Enter a valid input (1-9): ";
+        in.clear();
+        in.ignore(123);
+    }
+    while (mark <= 0 || mark > 9)
+    {
+        cout<<"Invalid input. Enter a valid input (1-9): ";
         in>>mark;
-    } while (mark < 1 || mark > 9);
-    
-    game.mark_board(mark);
+    }
+   game.mark_board(mark);
+   cout<<game;
+   return in;
 }
 
-void operator <<(std::ostream &output, TicTacToe &game)
+std::ostream& operator <<(std::ostream &output, const TicTacToe& game)
 {
-    output << game.pegs[0] << "|" << game.pegs[1] << "|" << game.pegs[2] << std::endl;
-    output << game.pegs[3] << "|" << game.pegs[4] << "|" << game.pegs[5] << std::endl;
-    output << game.pegs[6] << "|" << game.pegs[7] << "|" << game.pegs[8] << std::endl;
+    if(game.pegs.size() == 9)
+    {
+        for(std::size_t i = 0; i < game.pegs.size(); i +=3)
+        {
+            output<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2]<<"\n";
+        }
+    }
+    else if(game.pegs.size() == 16)
+    {
+        for(std::size_t x = 0; x < game.pegs.size(); x+=4)
+        {
+            output<<game.pegs[x]<<"|"<<game.pegs[x+1]<<"|"<<game.pegs[x+2]<<"|"<<game.pegs[x+3]<<"\n";
+        }
+    }
+      return output;
 }

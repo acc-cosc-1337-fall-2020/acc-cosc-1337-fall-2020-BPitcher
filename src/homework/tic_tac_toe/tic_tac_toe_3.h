@@ -1,24 +1,22 @@
 //h
-//h
-#include <string>
-#include <vector>
+#include "tic_tac_toe.h"
+#include<vector>
+#include<string>
 
-using std::string;  using std::vector;
+#ifndef TIC_TAC_TOE_3
+#define TIC_TAC_TOE_3
 
-class TicTacToe
+bool test_config();
+
+class TicTacToe3 : public TicTacToe 
 {
-public:
-    bool game_over();
-    void start_game(string first_player);
-    void mark_board(int position);
-    string get_player() const;
-    void display_board() const;
 
-private:
-    void set_next_player();
-    void check_board_full();
-    void clear_board() const;
-    string player;
-    vector <string> pegs;
-
+    public:
+        TicTacToe3() : TicTacToe(3){}
+    private:
+        bool check_column_win() override;
+        bool check_row_win() override;
+        bool check_diagonal_win() override;
 };
+
+#endif

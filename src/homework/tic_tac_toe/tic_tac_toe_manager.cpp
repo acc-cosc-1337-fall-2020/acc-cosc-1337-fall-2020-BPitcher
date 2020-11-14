@@ -6,21 +6,23 @@
 
 using namespace std;
 
-void TicTacToeManager::save_game(TicTacToe game)
+void TicTacToeManager::save_game(unique_ptr<TicTacToe>& game)
 {
-    games.push_back(game);
-    string winner = game.get_winner();
-    cout<<"Tbe save_game() winner is = "<<winner<<endl;
-    update_winner_count(winner);
+    update_winner_count(game->get_winner());
+    games.push_back(std::move(game));
+    
 }
 
-void operator<<(std::ostream& out, const TicTacToeManager& manager)
+ostream& operator<<(std::ostream& out, const TicTacToeManager& manager)
 {
-    for(TicTacToe game : manager.games)
+   for (auto &game: manager.games)
     {
-        out<<game;
-        out<<std::endl;
-    }
+        out<<*game;
+        out<<"Winner is: "<<game->get_winner()<<"\n";
+    } 
+
+
+    return out;
 }
 
 void TicTacToeManager::update_winner_count(std::string winner)
